@@ -1,12 +1,8 @@
-import { FiSmartphone } from "react-icons/fi"
-import { FiUnlock } from "react-icons/fi"
-import { FiUser } from "react-icons/fi"
-
-const Input = ({ formik, lable, name, type = "text" }) => {
+const Input = ({ formik, lable, name, type = "text", children }) => {
   return (
-    <div className="flex flex-col items-start gap-y-2 mt-5">
+    <div className="flex flex-col items-start gap-y-2 mt-5 w-full">
       <div className={`${!formik.errors[name] && formik.touched[name] && "border-blue-600"} bg-white w-full px-2 py-1 flex items-center justify-start rounded-full border ${formik.errors[name] && formik.touched[name] && "border-red-500"}`}>
-        <FiUser className={`${!formik.errors[name] && formik.touched[name] && "text-blue-600"} text-gray-500 text-2xl ml-2`} />
+        {children}
         <input
           type={type}
           name={name}

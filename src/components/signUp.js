@@ -4,12 +4,20 @@ import { FiSmartphone } from "react-icons/fi"
 import { FiUnlock } from "react-icons/fi"
 import { FiUser } from "react-icons/fi"
 import Input from "./common/input";
+import Radio from "./common/radio";
 
 
 const SignUp = () => {
 
   const formik = useFormik({
-    initialValues: { name: "", email: "", password: "" },
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      phoneNumber: "",
+      passwordConfirm: "",
+      gender: ""
+    },
     onSubmit: (valuse) => console.log(valuse),
     validationSchema: yup.object({
       name: yup.string().required("لطفا نام خود را وارد کنید")
@@ -28,32 +36,59 @@ const SignUp = () => {
       passwordConfirm: yup.string().required("لطفا رمز خود را دوباره وارد کنید")
         .oneOf([yup.ref('password'), null], "رمز شما مطابقت ندارد"),
 
+      gender: yup.string().required("لطفا جنسیت خود را وارد کنید")
     }),
     validateOnMount: true,
   })
 
+  const radioData = [
+    { lable: "male", id: "1", formik: formik, name: "gender" },
+    { lable: "female", id: "2", formik: formik, name: "gender" },
+  ]
+
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
-      <form onSubmit={formik.handleSubmit} className="md:border p-4 px-6 rounded-lg max-w-[350px] w-full">
+    <div className="container w-screen h-screen flex flex-col md:flex-row items-center justify-center">
+      <div className="w-full md:w-1/2 h-full hidden md:flex items-center justify-end">
+        <div className="w-[calc(100%-5%)] h-[calc(100%-5%)] bg-blue-500 rounded-l-xl"></div>
+      </div>
+      <form onSubmit={formik.handleSubmit} className="md:w-1/2 h-full w-full flex items-center md:justify-start justify-center">
+        <div className="w-[calc(100%-5%)] h-[calc(100%-5%)] md:bg-white rounded-r-xl flex items-center justify-center">
+          <div className="w-full md:max-h-full overflow-scroll max-w-[300px]">
+            <h2 className="w-full text-center font-sans text-3xl">Sign Up</h2>
+            <Input formik={formik} name="name" lable="name" >
+              <FiUser className="ml-2 text-2xl" />
+            </Input>
+            <Input formik={formik} name="email" lable="Email" type="email">
+              <FiUser className="ml-2 text-2xl" />
+            </Input>
+            <Input formik={formik} name="phoneNumber" lable="Phone Number">
+              <FiSmartphone className="ml-2 text-2xl" />
+            </Input>
+            <Input formik={formik} name="password" l lable="Password" type="password">
+              <FiUnlock className="ml-2 text-2xl" />
+            </Input>
+            <Input formik={formik} name="passwordConfirm" lable="Password Confirmation" type="password">
+              <FiUnlock className="ml-2 text-2xl" />
+            </Input>
 
-        <Input formik={formik} name="name" lable="name" />
-        <Input formik={formik} name="email" lable="Email" type="email" />
-        <Input formik={formik} name="phoneNumber" lable="Phone Number" />
-        <Input
-          formik={formik}
-          name="password" l
-          lable="Password"
-          type="password"
-        />
-        <Input
-          formik={formik}
-          name="passwordConfirm"
-          lable="Password Confirmation"
-          type="password"
-        />
+            <div className="w-full flex items-center justify-start gap-x-4 flex-wrap px-2 mt-4">
+              {radioData.map(radio => {
+                return (
+                  <Radio
+                    key={radio.id}
+                    formik={radio.formik}
+                    name={radio.name}
+                    id={radio.id}
+                    lable={radio.lable}
+                  />
+                )
+              })}
+            </div>
 
-        <div className="w-full flex items-center justify-center">
-          <button disabled={!formik.isValid} className={`${!formik.isValid ? "opacity-50" : "opacity-100"} w-2/3 py-3 bg-blue-500 text-white font-sans mt-8 rounded-full font-bold`}>CREATE</button>
+            <div className="w-full flex items-center justify-center">
+              <button disabled={!formik.isValid} className={`${!formik.isValid ? "opacity-50" : "opacity-100"} w-2/3 py-3 bg-blue-500 text-white font-sans mt-8 rounded-full font-bold`}>CREATE</button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
