@@ -5,7 +5,7 @@ import { FiUnlock } from "react-icons/fi"
 import { FiUser } from "react-icons/fi"
 import Input from "./common/input";
 import Radio from "./common/radio";
-
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
 
@@ -42,8 +42,8 @@ const SignUp = () => {
   })
 
   const radioData = [
-    { lable: "male", id: "1", formik: formik, name: "gender" },
-    { lable: "female", id: "2", formik: formik, name: "gender" },
+    { lable: "male", id: "1", formik, name: "gender" },
+    { lable: "female", id: "2", formik, name: "gender" },
   ]
 
   return (
@@ -53,8 +53,8 @@ const SignUp = () => {
       </div>
       <form onSubmit={formik.handleSubmit} className="md:w-1/2 h-full w-full flex items-center md:justify-start justify-center">
         <div className="w-[calc(100%-5%)] h-[calc(100%-5%)] md:bg-white rounded-r-xl flex items-center justify-center">
-          <div className="w-full md:max-h-full overflow-scroll max-w-[300px]">
-            <h2 className="w-full text-center font-sans text-3xl">Sign Up</h2>
+          <div className="w-full md:max-h-full overflow-scroll max-w-[300px] max-h-screen">
+            <h2 className="w-full text-center font-sans text-3xl my-8">Sign Up</h2>
             <Input formik={formik} name="name" lable="name" >
               <FiUser className="ml-2 text-2xl" />
             </Input>
@@ -70,7 +70,6 @@ const SignUp = () => {
             <Input formik={formik} name="passwordConfirm" lable="Password Confirmation" type="password">
               <FiUnlock className="ml-2 text-2xl" />
             </Input>
-
             <div className="w-full flex items-center justify-start gap-x-4 flex-wrap px-2 mt-4">
               {radioData.map(radio => {
                 return (
@@ -84,9 +83,12 @@ const SignUp = () => {
                 )
               })}
             </div>
-
             <div className="w-full flex items-center justify-center">
               <button disabled={!formik.isValid} className={`${!formik.isValid ? "opacity-50" : "opacity-100"} w-2/3 py-3 bg-blue-500 text-white font-sans mt-8 rounded-full font-bold`}>CREATE</button>
+            </div>
+            <div className="w-full flex items-center justify-center my-10 text-sm">
+              <span>Already have an account ?</span>
+              <Link to={"/signin"} className="text-blue-500 font-bold ml-2">Login Here</Link>
             </div>
           </div>
         </div>
